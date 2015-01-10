@@ -1,0 +1,18 @@
+Nombre del archivo
+Objetivo
+LLamado por:-
+Scripts (js)
+Styles  (css)
+funcionesPHP
+Dependencias CSS
+Dependencias js
+Dependencias img
+
+
+
+Para seguimiento de actividades
+Archivo modificado
+renglon
+anterior
+modificado
+nuevo

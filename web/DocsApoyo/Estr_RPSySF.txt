@@ -1,0 +1,60 @@
+create table rpsysf(
+  id_rpsysf int auto_increment,
+  id_supervisor int not null,
+  fecha date,
+  turno int,
+  kg_rps_hd float,
+  mill_rps_hd float,
+  dtira_rps_hd float,
+  kg_rps_bd float,
+  mill_rps_bd float,
+  dtira_rps_bd float,
+  mill_hr_rps float,
+  kg_sf_hd float,
+  mill_sf_hd float,
+  dtira_sf_hd float,
+  kg_sf_bd float,
+  mill_sf_bd float,
+  dtira_sf_bd float,
+  mill_hr_sf float,
+  autorizado int,
+  actualizado int,
+  rol int,
+  repesada int,
+  fecha_repesada date,
+  turno_repe int,
+ primary key(id_rpsysf)
+  
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+
+
+create table resumen_maq_rpsysf(
+id_resumen_maq_rpsysf int auto_increment,
+id_rpsysf int,
+millares_hd float,
+kilogramos_hd float,
+dtira_hd float,
+millares_bd float,
+kilogramos_bd float,
+dtira_bd float,
+id_maquina int, 
+id_operador int,
+primary key(id_resumen_maq_rpsysf)
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1 ; 
+
+
+create table det_resumen_maq_rpsysf(
+id_det_resumen_maq_rpsysf int auto_increment,
+id_resumen_maq_rpsysf int,
+orden varchar(10),
+kam int,
+factor float,
+millares float,
+kilogramos float,
+dtira float,
+id_zona int,
+primary key(id_det_resumen_maq_rpsysf)
+)ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+ 
+

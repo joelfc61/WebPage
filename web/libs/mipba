@@ -1,0 +1,9 @@
+<?
+define ("DS",DIRETORY_SEPARATOR);
+DEFINE ("ROOT",realpath(dirname(__FILE__)));
+define ("APP_PATH", ROOT."aplicacion".DS);
+
+echo DS."<br>";
+echo ROOT."<br>";
+echo APP_PATH."<br>";
+>?

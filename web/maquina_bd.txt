@@ -1,0 +1,12 @@
+
+CREATE TABLE maquina_bd (
+  id_maquina int(10) NOT NULL auto_increment,
+  numero int(10) NOT NULL default '0',
+  marca varchar(255) NOT NULL default '',
+  area int(10) NOT NULL default '0',
+  lineas int(10) NOT NULL default '0',
+  serie varchar(255) NOT NULL default '',
+  tipo_d int(11) default NULL,
+  PRIMARY KEY  (id_maquina),
+  UNIQUE KEY id_maquina_index (id_maquina)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

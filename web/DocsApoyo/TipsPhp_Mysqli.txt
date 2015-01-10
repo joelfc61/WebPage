@@ -1,0 +1,263 @@
+$DBServer = 'server name or IP address'; // e.g 'localhost' or '192.168.1.100'
+$DBUser   = 'DB_USER';
+$DBPass   = 'DB_PASSWORD';
+$DBName   = 'DB_NAME';
+
+$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+ 
+// check connection
+if ($conn->connect_error) {
+  trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+}
+
+
+$sql='SELECT col1, col2, col3 FROM table1 WHERE condition';
+ 
+$rs=$conn->query($sql);
+ 
+if($rs === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+} else {
+  $rows_returned = $rs->num_rows;
+}
+
+
+//lectura de datos por nombre de campo
+
+$rs->data_seek(0);
+while($row = $rs->fetch_assoc()){
+    echo $row['col1'] . '<br>';
+}
+
+//Otra forma, por indice de columna
+
+$rs->data_seek(0);
+while($row = $rs->fetch_row()){
+    echo $row[0] . '<br>';
+}
+
+
+//Filas regresadas
+$rows_returned = $rs->num_rows;
+
+//liberar memoria
+
+$rs->free();
+
+
+
+Use the following syntax:
+
+real_escape_string is used to escape special characters NUL (ASCII 0), \n, \r, \, ', ", and Control-Z in string values before insert to Database (mainly to prevent SQL injection).
+
+WARNING: real_escape_string does not add quotes, you have to do it manually.
+
+
+$v1="'" . $conn->real_escape_string('col1_value') . "'";
+ 
+$sql="INSERT INTO tbl (col1_varchar, col2_number) VALUES ($v1,10)";
+ 
+if($conn->query($sql) === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+} else {
+  $last_inserted_id = $conn->insert_id;
+  $affected_rows = $conn->affected_rows;
+}
+Update
+Use the following syntax:
+
+ 
+$v1="'" . $conn->real_escape_string('col1_value') . "'";
+ 
+$sql="UPDATE tbl SET col1_varchar=$v1, col2_number=1 WHERE id>10";
+ 
+if($conn->query($sql) === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+} else {
+  $affected_rows = $conn->affected_rows;
+}
+Delete
+Use the following syntax:
+
+ 
+$sql="DELETE FROM tbl WHERE id>10";
+ 
+if($conn->query($sql) === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+} else {
+  $affected_rows = $conn->affected_rows;
+}
+
+
+//Para transacciones
+
+Use the following syntax:
+ 
+ 
+try {
+  /* switch autocommit status to FALSE. Actually, it starts transaction */
+  $conn->autocommit(FALSE);
+ 
+  $res = $conn->query($sql1);
+  if($res === false) {
+    throw new Exception('Wrong SQL: ' . $sql . ' Error: ' . $conn->error);
+  }
+ 
+  $res = $conn->query($sql2);
+  if($res === false) {
+    throw new Exception('Wrong SQL: ' . $sql . ' Error: ' . $conn->error);
+  }
+ 
+  $res = $conn->query($sql3);
+  if($res === false) {
+    throw new Exception('Wrong SQL: ' . $sql . ' Error: ' . $conn->error);
+  }
+ 
+  $conn->commit();
+  echo 'Transaction completed successfully!';
+ 
+} catch (Exception $e) {
+ 
+  echo 'Transaction failed: ' . $e->getMessage();
+  $conn->rollback();
+}
+ 
+/* switch back autocommit status */
+$conn->autocommit(TRUE);
+According to http://www.php.net/manual/en/mysqli.commit.php#89976, calling $conn->commit() will NOT automatically set autocommit() back to 'true'. That means that any queries following $conn->commit() will be rolled back when your script exits, if autocommit() will be not switched back to TRUE.
+
+WARNING: some MySQL statements cause an implicit commit, so the cannot be used inside a transaction. For example, you cannot rollback MySQL CREATE TABLE or TRUNCATE TABLE inside a transcaction. A useful comparison is available here.
+
+Quoting and escaping strings
+You have probably noticed that every string value is escaped before inserted to database as special characters may break SQL and, moreover, to prevent SQL injection.
+
+1
+$safe_string = $conn->real_escape_string($string);
+Example: bla"bla\bla will be converted to bla\"bla\\bla.
+
+real_escape_string does not add quotes, you have to do it manually.
+
+However, these are not required, if you use Prepared statements (see below).
+
+Prepared statements
+What are Prepared Statements and why they are important?
+
+Prepared Statement objects are used with an SQL statement which, typically but not necessary, takes parameters (using the symbol ? in our case or using other placeholders in different DBMS, e.g. $1, $2 etc in PostgreSQL).
+
+After an SQL Statement has been prepared, the DBMS does not have to recompile it and prepare an execution plan. The Database engine simply runs (executes) the statement. This is can optimize performance. Performance advantage is remarkable when a single session is being used to execute a large number of similar statements.
+
+These parameters inside a prepared statement don't need to be escaped and quoted. Driver takes care of this. So, using of Prepared Statements eliminates the possibility of SQL injection.
+
+If you're not familiar with the use of Prepared Statements, you should do it, as it is very important for web applications security.
+
+Connect to database as decribed above.
+
+Select queries
+
+ 
+$sql='SELECT lastname, email FROM customers WHERE id > ? AND firstname = ?';
+$id_greater_than = 5;
+$firstname = 'John';
+ 
+/* Prepare statement */
+$stmt = $conn->prepare($sql);
+if($stmt === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+}
+ 
+/* Bind parameters. TYpes: s = string, i = integer, d = double,  b = blob */
+$stmt->bind_param('is',$id_greater_than,$firstname);
+ 
+/* Execute statement */
+$stmt->execute();
+Iterate over results
+
+ 
+$stmt->bind_result($lastname, $email);
+while ($stmt->fetch()) {
+  echo $lastname . ', ' . $email . '<br>';
+}
+Store all values to array
+
+ 
+$rs=$stmt->get_result();
+$arr = $rs->fetch_all(MYSQLI_ASSOC);
+WARNING: get_result is available only with MySQL Native Driver.
+
+Close statement
+
+ 
+$stmt->close();
+Insert queries
+
+ 
+ 
+$sql='INSERT INTO customers (firstname, lastname) VALUES (?,?)';
+$firstname = 'John';
+$lastname = 'Doe';
+ 
+/* Prepare statement */
+$stmt = $conn->prepare($sql);
+if($stmt === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+}
+ 
+/* Bind parameters. TYpes: s = string, i = integer, d = double,  b = blob */
+$stmt->bind_param('ss',$firstname,$lastname);
+ 
+/* Execute statement */
+$stmt->execute();
+ 
+echo $stmt->insert_id;
+echo $stmt->affected_rows;
+ 
+$stmt->close();
+Update queries
+
+
+$sql='UPDATE customers SET firstname = ?, lastname = ? WHERE id > ?';
+$firstname = 'John';
+$lastname = 'Doe';
+$id_greater_than = 5;
+ 
+/* Prepare statement */
+$stmt = $conn->prepare($sql);
+if($stmt === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+}
+ 
+/* Bind parameters. TYpes: s = string, i = integer, d = double,  b = blob */
+$stmt->bind_param('ssi',$firstname,$lastname,$id_greater_than);
+ 
+/* Execute statement */
+$stmt->execute();
+ 
+echo $stmt->affected_rows;
+ 
+$stmt->close();
+Delete queries
+
+
+$sql='DELETE FROM customers WHERE id > ?';
+$id_greater_than = 5;
+ 
+/* Prepare statement */
+$stmt = $conn->prepare($sql);
+if($stmt === false) {
+  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
+}
+ 
+/* Bind parameters. TYpes: s = string, i = integer, d = double,  b = blob */
+$stmt->bind_param('i',$id_greater_than);
+ 
+/* Execute statement */
+$stmt->execute();
+ 
+echo $stmt->affected_rows;
+ 
+$stmt->close();
+Disconnect
+Optional:
+
+
+$conn->close();

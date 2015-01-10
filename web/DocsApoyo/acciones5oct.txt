@@ -1,0 +1,34 @@
+Actividades Domingo 5 Octubre 2014
+
+---Modificar las tablas
+
+maquinas      agregar tipo_d y poner por default a 1    ---  ya 
+supervisores  agregar area4, que será la de RPS y SF  default 0 --- ya
+Orden_prod    agregar total_bd, desperdicio_tira_bd,desperdicio_duro_bd,k_h_bd----  ya
+repesadas     agregar desperdicio4 y  diferencia4--- ya 
+resumen_maquina_ex   + densidad default 1----ya 
+
+---archivos php
+
+admin    ---  Subido    (y el de admin_supervisor?)
+maquinas --  asignables a  operadores
+supervisor  a cargo de una area
+operador   asignados a maquinas y a cierta area
+usuarios   para entrada al sistema
+tiempos_extruder
+extruder
+reporte_diario
+
+menu ppal, reporte produccion diaria
+
+actualiza_desper(repesada)
+
+reportes de directores /web2
+
+reportes extruder hd y bd
+
+
+log->fecha y hora idusuario seccion
+
+---imagenes
+

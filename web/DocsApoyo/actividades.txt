@@ -1,0 +1,24 @@
+Cambios
+
+
+06:20 p.m. 07/08/2014
+
+Autorizar.php
+renglones 2691 y 2692   agregado lo de bd en nombre y en sumar() y on keykeydown
+ot_extruderX ->ot_extruder_bdX
+kg_extruderX->kg_extruder_bdX
+
+addTextExtruder ->addTextExtruder_bd
+sumar  ->sumar_bd
+sumarExtr ->sumarExtr_bd
+
+
+igual en renglones
+
+2702 y 2703
+
+
+
+Cambio de nombre a carpeta desing a design   y se quiitan los errores 404
+
+

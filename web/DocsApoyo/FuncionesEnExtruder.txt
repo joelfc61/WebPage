@@ -1,0 +1,31 @@
+------------------------------------------------
+funciones en Extruder.php
+------------------------------------------------
+
+-----PHP
+function pDebug($str)
+
+
+
+------js
+function mostrar(f,id)
+function redondear(cantidad, decimales) 
+function IsNumeric(sText)
+function sumar(x)
+function sumarExtrXX()
+function sumar_bd(x)
+function sumarExtr_bd()
+function sumarImpr()
+function sumarImpr2(x)
+function probar()
+
+
+------------------------------------------------
+-Funciones en Autorizar.php
+------------------------------------------------
+   -----JS
+function checar_tiempos(x)
+function checar(x,b)
+kh()
+function redirTimer() 
+

@@ -1,0 +1,760 @@
+PARA CONVERTIR DE MYSQL A sqlsERVER
+----
+date -> datetime
+TIME -> datetime
+unsigned->Eliminar
+int(xx) -> int 
+auti_increment -> identity(1,1)
+Engine...->eliminar
+collate ...-> eliminar
+---
+
+Para listar usuarios
+
+http://dolfra.com/web/admin.php?seccion=32&accion=listar
+si ya se está registrado
+
+CREATE TABLE supervisor (
+  id_supervisor int identity(1,1) primary key,
+  nombre varchar(50)  NOT NULL default '',
+  usuario varchar(15)  NOT NULL default '',
+  password varchar(15)  NOT NULL default '',
+  area int NOT NULL default '0',
+  area2 int NOT NULL default '0',
+  area3 int NOT NULL default '0',
+  numnomina varchar(30)  NOT NULL default '',
+  rol int NOT NULL default '0',
+  nave int NOT NULL default '0',
+  activo int NOT NULL default '0'
+  
+) 
+
+CREATE TABLE operadores (
+  id_operador int identity(1,1) primary key,
+  nombre varchar(50)  NOT NULL default '',
+  numnomina varchar(30) NOT NULL default '',
+  rol int NOT NULL default '0',
+  area int NOT NULL default '0',
+  puesto varchar(255) NOT NULL default '0',
+  `status` int NOT NULL default '0',
+  nave int NOT NULL default '0',
+  activo int NOT NULL default '0'
+  
+) 
+
+
+CREATE TABLE maquina (
+  id_maquina int identity(1,1) primary key,
+  numero int NOT NULL default '0',
+  marca varchar(255) NOT NULL default '',
+  area int NOT NULL default '0',
+  lineas int NOT NULL default '0',
+  serie varchar(255) NOT NULL default '',
+  tipo_d int default NULL
+) 
+
+
+
+CREATE TABLE oper_maquina (
+  id_opr_maquina int identity(1,1) primary key,
+  id_operador int references operadores(id_operador),
+  id_maquina int NOT NULL default '0',
+  rol int NOT NULL default '0'
+) 
+
+
+CREATE TABLE entrada_general (
+  id_entrada_general int identity(1,1) primary key,
+  id_supervisor int references supervisor(id_supervisor),
+  fecha date NOT NULL default '0000-00-00',
+  turno tinyint unsigned NOT NULL default 0,
+  autorizada int NOT NULL default 0,
+  area int NOT NULL default 0,
+  actualizado int NOT NULL default '0,
+  impresion int NOT NULL default 0,
+  rol int NOT NULL default 0,
+  repesada int NOT NULL default 0,
+  fecha_repesada date NOT NULL default '0000-00-00',
+  id_supervisor_repesada int NOT NULL default 0
+) 
+
+
+CREATE TABLE orden_produccion (
+  id_orden_produccion int identity(1,1) primary key,
+  id_entrada_general int references entrada_general(id_entrada_general),
+  total float NOT NULL default 0',
+  desperdicio_tira float NOT NULL default 0,
+  desperdicio_duro float NOT NULL default 0,
+  observaciones varchar(255) collate latin1_general_ci NOT NULL default '',
+  k_h float NOT NULL default '0',
+  total_bd float NOT NULL default '0',
+  desperdicio_tira_bd float NOT NULL default '0',
+  desperdicio_duro_bd float NOT NULL default '0',
+  k_h_bd float NOT NULL default '0'
+) 
+
+
+
+CREATE TABLE tiempos_muertos (
+  id_tiempo int identity(1,1) primary key,
+  id_produccion int references orden_produccion(id_orden_produccion),
+  id_maquina int references maquinas(id_maquina),
+  id_operador int references operadores(id_operador),
+  observaciones varchar(255) NOT NULL default '',
+  falta_personal time NOT NULL default '00:00:00',
+  mantenimiento time NOT NULL default '00:00:00',
+  fallo_electrico time NOT NULL default '00:00:00',
+  tipo int NOT NULL default 0,
+  cambio_impresion int NOT NULL default 0,
+  mallas int NOT NULL default 0,
+  otras time NOT NULL default '00:00:00'
+)
+
+
+
+CREATE TABLE resumen_maquina_ex (
+  id_resumen_maquina_ex int identity(1,1) primary key,
+  id_orden_produccion int unsigned NOT NULL default '0',
+  id_maquina int unsigned NOT NULL default '0',
+  id_operador int unsigned NOT NULL default '0',
+  subtotal float NOT NULL default '0',
+  falta_personal time NOT NULL default '00:00:00',
+  observacion varchar(255) collate latin1_general_ci NOT NULL default '',
+  fallo_electrico time NOT NULL default '00:00:00',
+  mantenimiento time NOT NULL default '00:00:00',
+  densidad int unsigned NOT NULL default '1',  
+) 
+
+
+
+
+CREATE TABLE detalle_resumen_maquina_ex (
+  id_detalle_resumen_maquina_ex int identity(1,1) primary key,
+  id_resumen_maquina_ex int unsigned NOT NULL default '0',
+  orden_trabajo varchar(255) collate latin1_general_ci NOT NULL default '0',
+  kilogramos float NOT NULL default '0'
+) 
+
+
+
+//Esta tabla no se requiere por el momento   07:19 p.m. 29/07/2014
+
+
+
+
+CREATE TABLE bolseo (
+  id_bolseo int identity(1,1) primary key,
+  id_supervisor int  references supervisor(id_supervisor),
+  fecha datetime NOT NULL default '0000-00-00',
+  kilogramos float NOT NULL default '0',
+  millares float NOT NULL default '0',
+  dtira float NOT NULL default '0',
+  dtroquel float NOT NULL default '0',
+  segundas float NOT NULL default '0',
+  turno tinyint NOT NULL default '0',
+  autorizada int NOT NULL default '0',
+  area int NOT NULL default '0',
+  actualizado int NOT NULL default '0',
+  rol int NOT NULL default '0',
+  repesada int NOT NULL default '0',
+  fecha_repesada datetime NOT NULL default '0000-00-00',
+  turno_repe int  NOT NULL default '0',
+  m_p float NOT NULL default '0',
+  observaciones varchar(255)   
+) 
+
+
+CREATE TABLE administrador (
+  id_admin int identity(1,1) primary key,
+  `user` varchar(255) NOT NULL default '',
+  pass varchar(255) NOT NULL default '',
+  nombre varchar(255) NOT NULL default '',
+  puesto varchar(255) NOT NULL default ''
+) 
+
+CREATE TABLE resumen_maquina_bs (
+  id_resumen_maquina_bs int  identity(1,1) primary key,
+  id_bolseo int references bolseo(id_bolseo),
+  kilogramos float NOT NULL default '0',
+  millares float NOT NULL default '0',
+  dtira float NOT NULL default '0',
+  dtroquel float NOT NULL default '0',
+  segundas float NOT NULL default '0',
+  observaciones varchar(255),
+  id_maquina int references maquina(id_maquina),
+  id_operador int references operadores(id_operador),
+  orden int NOT NULL default '0' 
+) 
+
+
+
+CREATE TABLE detalle_resumen_maquina_bs (
+  id_detalle_resumen_maquina_bs int identity(1,1) primary key,
+  id_resumen_maquina_bs int references resumen_maquina_bs(id_resumen_maquina_bs),
+  kilogramos float NOT NULL default '0',
+  millares float NOT NULL default '0',
+  dtira float NOT NULL default '0',
+  dtroquel float NOT NULL default '0',
+  segundas float NOT NULL default '0',
+  orden varchar(10) ,
+  kam int NOT NULL default '0',
+  factor float NOT NULL default '0'
+) 
+
+
+
+-- --------------------------------------------------------
+CREATE TABLE impresion (
+  id_impresion int IDENTITY(1,1) PRIMARY KEY,
+  id_entrada_general int REFERENCES ENTRADA_GENERAL(ID_ENTRADA_GENERAL),
+  total_hd float NOT NULL default '0',
+  total_bd float NOT NULL default '0',
+  desperdicio_hd float NOT NULL default '0',
+  desperdicio_bd float NOT NULL default '0',
+  observaciones varchar(255),
+  k_h float NOT NULL default '0'
+) 
+
+CREATE TABLE resumen_maquina_im (
+  id_resumen_maquina_im int IDENTITY(1,1) PRIMARY KEY,
+  id_impresion int REFERENCES IMPRESION(ID_IMPRESION),
+  id_maquina int REFERENCES MAQUINA(ID_MAQUINA),
+  id_operador int REFERENCES OPERADORES(ID_OPERADOR),
+  linea_impresion tinyint NOT NULL default '0',
+  subtotal float NOT NULL default '0',
+  falta_personal DATEtime NOT NULL default '00:00:00',
+  observacion varchar(255)  NOT NULL default '',
+  fallo_electrico DATEtime NOT NULL default '00:00:00',
+  mantenimiento DATEtime NOT NULL default '00:00:00',
+  cambio_impresion DATEtime NOT NULL default '00:00:00',
+  subtotal_bd float NOT NULL default '0'
+)
+
+
+
+
+CREATE TABLE detalle_resumen_maquina_im (
+  id_detalle_resumen_maquina_im int IDENTITY(1,1) PRIMARY KEY,
+  id_resumen_maquina_im int REFERENCES RESUMEN_MAQUINA_IM(ID_RESUMEN_MAQUINA_IM),
+  orden_trabajo float NOT NULL default '0',
+  kilogramos float NOT NULL default '0',
+  bd int NOT NULL default '0'
+)
+
+
+
+
+
+CREATE TABLE meta (
+  id_meta int IDENTITY(1,1) PRIMARY KEY,
+  total_hd float NOT NULL default '0',
+  total_dia float NOT NULL default '0',
+  desp_duro_hd float NOT NULL default '0',
+  desp_duro_bd float NOT NULL default '0',
+  porcentaje_desp float NOT NULL default '0',
+  area int NOT NULL default '0',
+  ano int NOT NULL default '0',
+  mes datetime NOT NULL default '0000-00-00',
+  troquel float NOT NULL default '0',
+  meta_mes_millar float NOT NULL default '0',
+  meta_mes_kilo float NOT NULL default '0',
+  mes_tira float NOT NULL default '0',
+  mes_troquel float NOT NULL default '0',
+  mes_segunda float NOT NULL default '0',
+  porcentaje_troquel float NOT NULL default '0',
+  porcentaje_segunda float NOT NULL default '0',
+  id_genera_meta int NOT NULL default '0',
+  porcentaje_tira float default NULL,
+  prod_hora float default NULL
+) 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'metas_maquinas'
+-- 
+
+CREATE TABLE metas_maquinas (
+  id_meta_diaria int identity(1,1) primary key,
+  id_meta int references meta(id_meta),
+  id_maquina int references maquina(id_maquina),
+  diaria float NOT NULL default '0',
+  turnos float NOT NULL default '0',
+  dias float NOT NULL default '0',
+  total float NOT NULL default '0',
+  area int NOT NULL default '0',
+)
+
+-- --------------------------------------------------------
+
+-- 
+-- 
+-- Table structure for table 'asistencias'
+-- 
+
+CREATE TABLE asistencias (
+  id_asistencia int(11) NOT NULL auto_increment,
+  id_operador int(10) NOT NULL default '0',
+  id_supervisor int(10) NOT NULL default '0',
+  fecha date NOT NULL default '0000-00-00',
+  dia varchar(10) NOT NULL default '',
+  asistencia varchar(10) NOT NULL default '',
+  retardo varchar(10) NOT NULL default '0',
+  extra varchar(10) NOT NULL default '0',
+  rol int(10) NOT NULL default '0',
+  turno int(10) NOT NULL default '0',
+  motivos varchar(255) NOT NULL default '',
+  semana int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_asistencia),
+  UNIQUE KEY id_asistencia_index (id_asistencia),
+  KEY id_operador_index (id_operador)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'bolseo'
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'clientes'
+-- 
+
+CREATE TABLE clientes (
+  id_cliente int(10) NOT NULL auto_increment,
+  razon varchar(255) NOT NULL default '',
+  rfc varchar(255) NOT NULL default '',
+  domicilio varchar(255) NOT NULL default '',
+  telefono int(11) NOT NULL default '0',
+  ciudad varchar(255) NOT NULL default '',
+  estado varchar(255) NOT NULL default '',
+  dcredito int(10) NOT NULL default '0',
+  lcredito float NOT NULL default '0',
+  drevision int(10) NOT NULL default '0',
+  dpagos int(10) NOT NULL default '0',
+  pagos int(10) NOT NULL default '0',
+  ahorario varchar(255) NOT NULL default '',
+  seenvia varchar(255) NOT NULL default '',
+  compras varchar(255) NOT NULL default '',
+  consignado varchar(255) NOT NULL default '',
+  consignado_dom varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id_cliente)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'configuracion_bolseo'
+-- 
+
+CREATE TABLE configuracion_bolseo (
+  id_configuracion int(10) NOT NULL auto_increment,
+  activado int(10) NOT NULL default '0',
+  ppm float NOT NULL default '0',
+  seg float NOT NULL default '0',
+  desde date NOT NULL default '0000-00-00',
+  hasta date NOT NULL default '0000-00-00',
+  observaciones varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id_configuracion)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+
+-- --------------------------------------------------------
+
+
+-- 
+-- Table structure for table 'maquina_bd'
+-- 
+
+CREATE TABLE maquina_bd (
+  id_maquina int(10) NOT NULL auto_increment,
+  numero int(10) NOT NULL default '0',
+  marca varchar(255) NOT NULL default '',
+  area int(10) NOT NULL default '0',
+  lineas int(10) NOT NULL default '0',
+  serie varchar(255) NOT NULL default '',
+  tipo_d int(11) default NULL,
+  PRIMARY KEY  (id_maquina),
+  UNIQUE KEY id_maquina_index (id_maquina)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'maquina_bd2'
+-- 
+
+CREATE TABLE maquina_bd2 (
+  id_maquina int(10) NOT NULL auto_increment,
+  numero int(10) NOT NULL default '0',
+  marca varchar(255) NOT NULL default '',
+  area int(10) NOT NULL default '0',
+  lineas int(10) NOT NULL default '0',
+  serie varchar(255) NOT NULL default '',
+  tipo_d int(11) default NULL,
+  PRIMARY KEY  (id_maquina),
+  UNIQUE KEY id_maquina_index (id_maquina)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'mensajeria'
+-- 
+
+CREATE TABLE mensajeria (
+  id_mensaje int(10) NOT NULL auto_increment,
+  de int(10) NOT NULL default '0',
+  para varchar(255) NOT NULL default '',
+  mensaje text NOT NULL,
+  fecha date NOT NULL default '0000-00-00',
+  checado int(10) NOT NULL default '0',
+  titulo varchar(255) NOT NULL default '',
+  grupo varchar(255) NOT NULL default '',
+  tipo varchar(10) NOT NULL default '',
+  tipo2 varchar(10) NOT NULL default '',
+  desactivado int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_mensaje)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'meta'
+-- 
+
+
+-- Table structure for table 'movimientos'
+-- 
+
+CREATE TABLE movimientos (
+  id_movimiento int(10) NOT NULL auto_increment,
+  almacen int(10) NOT NULL default '0',
+  id_operador int(10) NOT NULL default '0',
+  movimiento int(10) NOT NULL default '0',
+  fecha date NOT NULL default '0000-00-00',
+  desde date NOT NULL default '0000-00-00',
+  hasta date NOT NULL default '0000-00-00',
+  dia date NOT NULL default '0000-00-00',
+  turno int(11) NOT NULL default '0',
+  rol int(11) NOT NULL default '0',
+  id_operador2 int(10) NOT NULL default '0',
+  cantidad varchar(255) NOT NULL default '',
+  motivo text NOT NULL,
+  horario varchar(255) NOT NULL default '',
+  nuevo_movimiento varchar(255) NOT NULL default '',
+  horas varchar(255) NOT NULL default '',
+  autorizado int(10) NOT NULL default '0',
+  numero_dias int(10) NOT NULL default '0',
+  premio int(10) NOT NULL default '0',
+  semana int(10) NOT NULL default '0',
+  desde_tiempo varchar(255) NOT NULL default '',
+  hasta_tiempo varchar(255) NOT NULL default '',
+  puntualidad int(10) NOT NULL default '0',
+  productividad int(10) NOT NULL default '0',
+  no_premio int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_movimiento),
+  UNIQUE KEY id_movimiento (id_movimiento)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+-- 
+-- Table structure for table 'paros_general'
+-- 
+
+CREATE TABLE paros_general (
+  id_paros_general int(10) NOT NULL auto_increment,
+  fecha date NOT NULL default '0000-00-00',
+  motivo varchar(255) NOT NULL default '',
+  bolseo int(10) NOT NULL default '0',
+  impresion int(10) NOT NULL default '0',
+  lineas int(10) NOT NULL default '0',
+  extruder int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_paros_general)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'paros_maquinas'
+-- 
+
+CREATE TABLE paros_maquinas (
+  id_paros_maquinas int(10) NOT NULL auto_increment,
+  id_maquina int(10) NOT NULL default '0',
+  fecha date NOT NULL default '0000-00-00',
+  turno_m int(10) NOT NULL default '0',
+  turno_v int(10) NOT NULL default '0',
+  turno_n int(10) NOT NULL default '0',
+  area int(10) NOT NULL default '0',
+  meta_dia float NOT NULL default '0',
+  PRIMARY KEY  (id_paros_maquinas),
+  UNIQUE KEY id_paros_maquinas_index (id_paros_maquinas)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'pedidos'
+-- 
+
+CREATE TABLE pedidos (
+  id_pedido int(10) NOT NULL auto_increment,
+  instrucciones varchar(255) NOT NULL default '',
+  fecha_pedido date NOT NULL default '0000-00-00',
+  fecha_entrega date NOT NULL default '0000-00-00',
+  razon varchar(255) NOT NULL default '',
+  agente varchar(255) NOT NULL default '',
+  condiciones varchar(255) NOT NULL default '',
+  id_producto int(10) NOT NULL default '0',
+  cantidad int(10) NOT NULL default '0',
+  precio_unitario float NOT NULL default '0',
+  lado_uno varchar(255) NOT NULL default '',
+  lado_dos varchar(255) NOT NULL default '',
+  color varchar(255) NOT NULL default '',
+  tono varchar(255) NOT NULL default '',
+  costos float NOT NULL default '0',
+  total float NOT NULL default '0',
+  ord_ant int(10) NOT NULL default '0',
+  ord_num int(10) NOT NULL default '0',
+  fecha_planta date NOT NULL default '0000-00-00',
+  no_relacion int(10) NOT NULL default '0',
+  produccion_repor float NOT NULL default '0',
+  kg_mi_resultado float NOT NULL default '0',
+  PRIMARY KEY  (id_pedido)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'permisos'
+-- 
+
+CREATE TABLE permisos (
+  id_tipo int(11) NOT NULL auto_increment,
+  id_usuario int(10) NOT NULL default '0',
+  maquinaria int(10) NOT NULL default '0',
+  maquinaria_a int(10) NOT NULL default '0',
+  maquinaria_m int(10) NOT NULL default '0',
+  maquinaria_e int(10) NOT NULL default '0',
+  empleados int(10) NOT NULL default '0',
+  empleados_a int(10) NOT NULL default '0',
+  empleados_am int(10) NOT NULL default '0',
+  empleados_m int(10) NOT NULL default '0',
+  empleados_e int(10) NOT NULL default '0',
+  supervisores int(11) NOT NULL default '0',
+  supervisores_a int(10) NOT NULL default '0',
+  supervisores_m int(10) NOT NULL default '0',
+  supervisores_e int(10) NOT NULL default '0',
+  usuarios int(10) NOT NULL default '0',
+  usuarios_permisos int(10) NOT NULL default '0',
+  usuarios_pass int(10) NOT NULL default '0',
+  usuarios_a int(10) NOT NULL default '0',
+  usuarios_m int(10) NOT NULL default '0',
+  usuarios_e int(10) NOT NULL default '0',
+  extruder int(10) NOT NULL default '0',
+  impresion int(10) NOT NULL default '0',
+  bolseo int(10) NOT NULL default '0',
+  autorizacion int(10) NOT NULL default '0',
+  prenomina int(10) NOT NULL default '0',
+  prenomina_autoriza int(10) NOT NULL default '0',
+  prenomina_pre_autoriza int(10) NOT NULL default '0',
+  prenomina_m int(10) NOT NULL default '0',
+  prenomina_mo int(10) NOT NULL default '0',
+  autoriza_movimiento int(11) NOT NULL default '0',
+  movimientos_produccion int(10) NOT NULL default '0',
+  movimientos_almacen int(10) NOT NULL default '0',
+  prenomina_re_mo int(10) NOT NULL default '0',
+  prenomina_ext int(10) NOT NULL default '0',
+  prenomina_impr int(10) NOT NULL default '0',
+  prenomina_bol int(10) NOT NULL default '0',
+  prenomina_mtto int(10) NOT NULL default '0',
+  prenomina_mttob int(10) NOT NULL default '0',
+  prenomina_emp int(10) NOT NULL default '0',
+  prenomina_empb int(10) NOT NULL default '0',
+  prenomina_alm int(10) NOT NULL default '0',
+  prenomina_almb int(10) NOT NULL default '0',
+  prenomina_semana int(10) NOT NULL default '0',
+  meta int(10) NOT NULL default '0',
+  meta_a int(10) NOT NULL default '0',
+  meta_m int(10) NOT NULL default '0',
+  meta_e int(10) NOT NULL default '0',
+  paro_a int(10) NOT NULL default '0',
+  paro_m int(10) NOT NULL default '0',
+  paro_e int(10) NOT NULL default '0',
+  repesadas int(10) NOT NULL default '0',
+  repesadas_p int(10) NOT NULL default '0',
+  repesadas_m int(10) NOT NULL default '0',
+  pendientes int(10) NOT NULL default '0',
+  pendientes_m int(10) NOT NULL default '0',
+  pendientes_e int(10) NOT NULL default '0',
+  reportes_extruder int(10) NOT NULL default '0',
+  extruder_d int(10) NOT NULL default '0',
+  extruder_ma int(10) NOT NULL default '0',
+  extruder_s int(10) NOT NULL default '0',
+  extruder_i int(10) NOT NULL default '0',
+  extruder_mh int(10) NOT NULL default '0',
+  reportes_empaque int(10) NOT NULL default '0',
+  empaque_e int(10) NOT NULL default '0',
+  empaque_d int(10) NOT NULL default '0',
+  reportes_impr int(10) NOT NULL default '0',
+  impresion_d int(10) NOT NULL default '0',
+  impresion_m int(10) NOT NULL default '0',
+  impresion_s int(10) NOT NULL default '0',
+  impresion_i int(10) NOT NULL default '0',
+  impresion_ci int(10) NOT NULL default '0',
+  concentrado_rep int(10) NOT NULL default '0',
+  concentrado_ot int(10) NOT NULL default '0',
+  concentrado_ot_mod int(10) NOT NULL default '0',
+  concentrado_pd int(10) NOT NULL default '0',
+  concentrado_re int(10) NOT NULL default '0',
+  concentrado_mp int(10) NOT NULL default '0',
+  concentrado_pm int(10) NOT NULL default '0',
+  concentrado_rd int(10) NOT NULL default '0',
+  concentrado_dm int(10) NOT NULL default '0',
+  concentrado_ccm int(10) NOT NULL default '0',
+  concentrado_pegt int(10) NOT NULL default '0',
+  reportes_bolseo int(10) NOT NULL default '0',
+  bolseo_d int(10) NOT NULL default '0',
+  bolseo_m int(10) NOT NULL default '0',
+  bolseo_s int(10) NOT NULL default '0',
+  bolseo_i int(10) NOT NULL default '0',
+  bolseo_config int(10) NOT NULL default '0',
+  historial int(10) NOT NULL default '0',
+  historial_v int(10) NOT NULL default '0',
+  historial_m int(10) NOT NULL default '0',
+  concentrado_bmp int(10) NOT NULL default '0',
+  concentrado_khpt int(10) NOT NULL default '0',
+  concentrado_rpr int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_tipo)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'pre_nomina_calificada'
+-- 
+
+CREATE TABLE pre_nomina_calificada (
+  id_pre_nomina int(10) NOT NULL auto_increment,
+  desde date NOT NULL default '0000-00-00',
+  hasta date NOT NULL default '0000-00-00',
+  primaDom int(10) NOT NULL default '0',
+  por_asist varchar(10) NOT NULL default '5',
+  punt varchar(10) NOT NULL default '5',
+  prod varchar(10) NOT NULL default '10',
+  id_operador int(10) NOT NULL default '0',
+  semana int(10) NOT NULL default '0',
+  causas varchar(255) NOT NULL default '',
+  observaciones varchar(255) NOT NULL default '',
+  autorizada int(10) NOT NULL default '0',
+  pre_autorizada int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_pre_nomina),
+  UNIQUE KEY id_pre_nomina_index (id_pre_nomina)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'productos'
+-- 
+
+CREATE TABLE productos (
+  id_producto int(10) NOT NULL auto_increment,
+  unidad int(10) NOT NULL default '0',
+  densidad float NOT NULL default '0',
+  p int(10) NOT NULL default '0',
+  x int(10) NOT NULL default '0',
+  ccc int(10) NOT NULL default '0',
+  pigmento int(10) NOT NULL default '0',
+  color varchar(255) NOT NULL default '',
+  descripcion varchar(255) NOT NULL default '',
+  sello varchar(255) NOT NULL default '',
+  ancho float NOT NULL default '0',
+  largo float NOT NULL default '0',
+  fuelle float NOT NULL default '0',
+  calibre float NOT NULL default '0',
+  codigo varchar(255) NOT NULL default '',
+  tipo int(10) NOT NULL default '0',
+  kg_mi float NOT NULL default '0',
+  PRIMARY KEY  (id_producto)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'pruebas'
+-- 
+
+CREATE TABLE pruebas (
+  idconsec int(11) NOT NULL auto_increment,
+  nombre varchar(20) NOT NULL,
+  total_bd float NOT NULL default '0',
+  PRIMARY KEY  (idconsec)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'puestos'
+-- 
+
+CREATE TABLE puestos (
+  id_puesto int(10) NOT NULL auto_increment,
+  puesto varchar(255) NOT NULL default '',
+  area int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_puesto)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table 'repesadas'
+-- 
+
+
+CREATE TABLE repesadas (
+  id_repesada int identity(1,1) primary key,
+  id_entrada_general int references entrada_general(id_entrada_general),
+  desperdicio1 float NOT NULL default '0',
+  desperdicio2 float NOT NULL default '0',
+  desperdicio3 float NOT NULL default '0',
+  diferencia1 float NOT NULL default '0',
+  diferencia2 float NOT NULL default '0',
+  diferencia3 float NOT NULL default '0',
+  bolseo int NOT NULL default '0',
+  id_supervisor int references supervisor(id_supervisor),
+  turno int NOT NULL default '0',
+  id_admin int NOT NULL default '0'
+) 
+
+-- --------------------------------------------------------
+
+CREATE TABLE semana (
+  id_semana int(10) NOT NULL auto_increment,
+  tipo int(10) NOT NULL default '0',
+  semana int(10) NOT NULL default '0',
+  cerrar int(10) NOT NULL default '0',
+  anio int(10) NOT NULL default '0',
+  PRIMARY KEY  (id_semana),
+  UNIQUE KEY id_semana_index (id_semana)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+
+-- 
+-- Table structure for table 'vendedores'
+-- 
+
+CREATE TABLE vendedores (
+  id_vendedor int(10) NOT NULL auto_increment,
+  nombre varchar(255) NOT NULL default '',
+  `user` varchar(255) NOT NULL default '',
+  pass varchar(255) NOT NULL default '',
+  numnomina varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id_vendedor)
+) 

@@ -1,0 +1,7 @@
+Manual Consola de Chrome
+
+https://developer.chrome.com/devtools/docs/console
+
+
+WebSockets Mozilla
+https://developer.mozilla.org/en-US/docs/WebSockets

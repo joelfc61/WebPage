@@ -1,0 +1,71 @@
+
+
+BD
+
+ <td ><input type="text" class="text2" id="<?=$a?>_extr<?=$id_maquina[$reg]?>" 
+name="kg_extruder_bd<?=$numero[$reg]?>[]"  
+onkeydown="addTextExtruder(<?=$numero[$reg]?>,<?=$id_maquina[$reg]?>,<?=$a?>,<?=$dEntradaGeneral['turno']?>);" 
+onchange="sumar_bd(<?=$id_maquina[$reg]?>);  sumarExtr_bd();  kh(<?=$dEntradaGeneral['turno']?>);" 
+value="<?=$dDetalleResumen['kilogramos']?>" />
+
+
+addTextExtruder, esta funcion se encuentra en libs/funciones.js
+
+
+function sumar_bd(x)
+{
+        var a,total, i;
+
+        i =document.getElementsByTagName('INPUT');
+
+        total=0;
+
+        for(a=0; a<i.length; a++)
+        {
+                if (IsNumeric(i[parseInt(a)].value) && 	i[parseInt(a)].id.indexOf('_extr_bd'+parseInt(x))>0 )
+                {
+                        if (i[a].value.length>0) 
+                        {
+                                total = parseFloat(total) + parseFloat(i[parseInt(a)].value);
+                        }
+                }
+        }
+        document.getElementById("subtotal_"+parseInt(x)+"_extr_Total_bd").value = total;
+}
+
+
+
+function sumarExtr_bd()
+{
+
+        var a,total, i;
+
+        i = document.getElementsByTagName('INPUT');
+
+        total=0;
+
+        for(a=0; a<i.length; a++)
+
+        {
+
+                if (IsNumeric(i[a].value) && i[a].id.indexOf('_extr_Total_bd')>0 )
+
+                {
+
+                        if (i[a].value.length>0) 
+
+                        {
+
+                                total = parseFloat(total) + parseFloat(i[a].value);
+
+                        }
+
+                }
+
+        }
+
+        document.getElementById("total_extr_bd").value = parseFloat(total);
+
+}
+
+

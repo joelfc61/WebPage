@@ -1,0 +1,15 @@
+Versiones en hosting
+apache 2.2.27
+php 5.3.28
+mysql 5.5.4-cil
+phpmyadmin
+cpanel veersion 11.46.1 (build 4)
+
+shared ip-address 173.254.214.212
+
+-------Datos Toshiba----- 
+apache 2.2.4
+php  5.2.1
+mysql 64 bits 5.0.27
+appserv 32 bits
+phpmyadmin 2.9.2

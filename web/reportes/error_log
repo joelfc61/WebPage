@@ -1,0 +1,8 @@
+[12-Nov-2007 16:24:47] PHP Fatal error:  Class pdf:  Cannot inherit from undefined class fpdf in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 25
+[12-Nov-2007 16:26:45] PHP Fatal error:  Class pdf:  Cannot inherit from undefined class fpdf in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 25
+[12-Nov-2007 16:27:59] PHP Warning:  str_repeat() [<a href='function.str-repeat'>function.str-repeat</a>]: Second argument has to be greater than or equal to 0. in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 86
+[12-Nov-2007 16:27:59] PHP Warning:  Division by zero in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 87
+[12-Nov-2007 16:27:59] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/dolfra/public_html/web/reportes/desperdicios_generales.php:86) in /home/dolfra/public_html/web/libs/fpdf/fpdf.php on line 1172
+[12-Nov-2007 18:02:07] PHP Warning:  str_repeat() [<a href='function.str-repeat'>function.str-repeat</a>]: Second argument has to be greater than or equal to 0. in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 86
+[12-Nov-2007 18:02:08] PHP Warning:  Division by zero in /home/dolfra/public_html/web/reportes/desperdicios_generales.php on line 87
+[12-Nov-2007 18:02:08] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/dolfra/public_html/web/reportes/desperdicios_generales.php:86) in /home/dolfra/public_html/web/libs/fpdf/fpdf.php on line 1172

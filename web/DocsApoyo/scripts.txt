@@ -1,0 +1,46 @@
+select eg.fecha,eg.turno,op.total,op.k_h,rme.id_resumen_maquina_ex,rme.subtotal,drme.kilogramos from entrada_general  eg 
+inner join orden_produccion op on eg.id_entrada_general= op.id_entrada_general 
+inner join resumen_maquina_ex rme on op.id_orden_produccion=rme.id_orden_produccion 
+inner join detalle_resumen_maquina_ex drme on rme.id_resumen_maquina_ex = drme.id_resumen_maquina_ex 
+where  year(eg.fecha)=2014 and month(eg.fecha)=10;
+
+
+$rQuery=
+
+select eg.fecha,eg.turno,op.id_orden_produccion,op.total,op.k_h,rme.id_resumen_maquina_ex,rme.subtotal from entrada_general  eg 
+inner join orden_produccion op on eg.id_entrada_general= op.id_entrada_general 
+inner join resumen_maquina_ex rme on op.id_orden_produccion=rme.id_orden_produccion 
+where  year(eg.fecha)=2014 and month(eg.fecha)=10 order by rme.id_resumen_maquina_ex;
+
+
+$rQuery= mysql_query($qQuery);
+
+while($row = mysql_fetch_assoc($rQuery){
+
+ switch($row['turno']){
+  case 1: $horasTurno=8; break;
+  case 2: $horasTurno=7; break;
+  case 3: $horasTurno=9; break;
+ }
+
+ $prodxhora = $row[total] /$horasTurno;
+ if($row['k_h'] != $prodxhora)
+   {
+
+     $qActualiza = "update orden_produccion set k_h = $prodxhora where id_orden_produccion= $row[id_orden_produccion']";
+     //$rActualiza = mysql_query($qActualiza);     
+     echo $qActualiza."<br>";
+   }
+     
+    $qSumaOt = "select sum(kilogramos) as sumatoria from detalle_resumen_maquina_ex  where id_resumen_maquina_ex= $row['id_resumen-maquina_ex']";
+    $rSumaOT = mysql_query($qSumaOT); 
+    $dSumaOt = mysql_fetch_assoc($rSumaOT);
+
+    if($dSumaOT[sumatoria]  != $row[subtotal]){
+      // actualiza resumen_maquina_ex ;
+       // update resumen_maquina_ex set subtotal= $dSumaOT[subtotal] where  id_resumen_maquina_ex = $row['id_resumen_maquina_ex']"
+
+    }
+}
+
+

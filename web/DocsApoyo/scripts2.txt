@@ -1,0 +1,7 @@
+select eg.fecha,eg.turno,op.id_entrada_general,op.id_orden_produccion,op.total,op.k_h,rme.id_resumen_maquina_ex,rme.subtotal from orden_produccion op 
+inner join entrada_general eg on op.id_entrada_general = eg.id_entrada_general INNER JOIN 
+resumen_maquina_ex rme on op.id_orden_produccion = rme.id_orden_produccion
+where eg.fecha>='2014-10-01';
+
+
+

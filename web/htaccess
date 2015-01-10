@@ -1,0 +1,6 @@
+Options Indexes
+#Directoryindex clientes.php
+AuthUserFile c:\.htpasswd
+AuthName "Zona prohibida"
+AuthType basic
+require valid-user

@@ -1,0 +1,15 @@
+CodeIgnitor
+	
+http://codigofacilito.com/videos/tutorial_codeigniter_introduccion
+http://codigofacilito.com/videos/tutorial_codeigniter_instalar_y_hola_mundo
+XAMPP   bajar instalador, tiene Filezilla Server
+htdocs es la raiz
+en php5 se usa __construct como constructor
+Enlas versiones aneriores era el nombre de la clase
+En head  se coloca un <meta charset = 'UTF-8'> para caracteres especiales
+
+
+
+
+
+godaddy
