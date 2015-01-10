@@ -3,7 +3,7 @@ var accordion = new Accordion('h3.atStart', 'div.atStart', {
 	onActive: function(toggler, element){
 		toggler.setStyle('color', '#ff3300');
 	},
- 
+ //hola
 	onBackground: function(toggler, element){
 		toggler.setStyle('color', '#222');
 	}
