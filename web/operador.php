@@ -15,7 +15,7 @@ function Blur(elemento, valor, campo, id) {
 <body onLoad="myajax = new isiAJAX();">
 <?
 
-
+//include("debugger.php");
 
 $tabla	=	"operadores";
 $indice	=	"id_operador";
@@ -26,7 +26,7 @@ $indice2	=	"id_opr_maquina";
 $campos	=	describeTabla($tabla,$indice);
 $campos2	=	describeTabla($tabla2,$indice2);
 
-		$numDia			= 	date('w');//numero del dia de la semana 0 para Domingo y 6 para sabado
+$numDia			= 	date('w');//numero del dia de la semana 0 para Domingo y 6 para sabado
 				
 		if($numDia >= 0 && $numDia < 4)
 	 		$semana 		= 	date('W');//numero de la semana actual
@@ -44,8 +44,9 @@ $nArticulos	=	$_POST['numeros'];
 	
 		$sufijo				=	$_POST['codigos'][$i];
 		$id_maquina		=	intval($_POST['id_maquina_'.$i]);
-
-		$qResumenMaquinaEx	=	"INSERT INTO $tabla2 (id_operador, id_maquina, rol)"."VALUES ('{$_REQUEST[id_operador]}','$id_maquina','{$_REQUEST[rol]}')";
+        $id_rol = intval($_POST['rol']);
+		$qResumenMaquinaEx	=	"INSERT INTO $tabla2 (id_operador, id_maquina, rol)"."VALUES ('{$_REQUEST[id_operador]}','$id_maquina','$id_rol')";
+//		pDebug($qResumenMaquinaEx);
 		$rResumenMaquinaEx	=	mysql_query($qResumenMaquinaEx) OR die("<p>$qResumenMaquinaEx</p><p>".mysql_error()."</p>");
 
 			

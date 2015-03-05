@@ -3,7 +3,7 @@
 <?php
 
 	include("libs/conectar.php");
-
+include "debugger.php";
 
 
 if(isset($_REQUEST['admindolfra']) && $_REQUEST['accion'] == 'nuevo'){
@@ -384,7 +384,7 @@ function mostrar(f,id)
 							" WHERE id_maquina = ".$dat_lic['id_maquina']."  AND oper_maquina.rol = '".$_SESSION['rol']."' ".
 
 							" AND operadores.status = '0' AND activo = 0 ";
-
+            pDebug($qOperador);
 			$rOperador = mysql_query($qOperador);
 
 			$dAsignacion = mysql_fetch_assoc($rOperador);

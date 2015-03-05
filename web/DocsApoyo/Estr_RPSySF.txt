@@ -23,6 +23,7 @@ create table rpsysf(
   repesada int,
   fecha_repesada date,
   turno_repe int,
+  observaciones text,
  primary key(id_rpsysf)
   
 )ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;

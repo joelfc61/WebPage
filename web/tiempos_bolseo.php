@@ -28,17 +28,6 @@ if(isset($_REQUEST['admindolfra']) && $_REQUEST['accion'] == 'nuevo'){
 
 
 
-function pDebug($str)
-
-{
-
-	global $debug;
-
-	if($debug)
-
-		echo $str . "\n";
-
-}
 
 
 
@@ -184,7 +173,7 @@ if(isset($_POST['guardar']))
 
 		$qImpresion			=	"INSERT INTO tiempos_muertos (id_produccion, id_maquina, id_operador, falta_personal, observaciones, fallo_electrico, mantenimiento, cambio_impresion, tipo,otras) VALUES ".
 
-								"('$ID_GENERAL','$id_maquina','$id_operador','$falta_personal', '$observacion', '$fallo_electrico','$mantenimiento', '00:00:00','4','$otras')";
+								"('$ID_GENERAL','$id_maquina','$id_operador','$falta_personal', '$observacion', '$fallo_electrico','$mantenimiento', '0','4','$otras')";
 
 		pDebug($qImpresion);
 
@@ -202,7 +191,7 @@ if(isset($_POST['guardar']))
 
 	pDebug("Terminado");
 
-	pDebug("Comienza volcado de la petición");
+	pDebug("Comienza volcado de la peticiÃ³n");
 
 
 
@@ -772,7 +761,7 @@ $nValidacion = mysql_num_rows($rValidacion);
 
 <div id="barraSubmit" style="background-color:#FFFFFF; text-align:right;">
 
-			<input type="submit" name="guardar" value="Guardar" onclick="javascript: return confirm('Usted está a punto de pasar a la siguiente \netapa de registro de produccion, si desea realizar cambios seleccione cancelar,\npara continuar dar click en aceptar.');" />
+			<input type="submit" name="guardar" value="Guardar" onclick="javascript: return confirm('Usted estÃ¡ a punto de pasar a la siguiente \netapa de registro de produccion, si desea realizar cambios seleccione cancelar,\npara continuar dar click en aceptar.');" />
 
   </div>
 

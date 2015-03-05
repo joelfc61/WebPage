@@ -56,12 +56,12 @@ $debug = false;
 
 
 
-if(isset($_POST['guardar']))
+if(isset($_POST['guardar'])) //finaliza en 212
 
 {
 
 
-
+  pDebug($_POST['codigos2']);
 
 
 	$_POST['fecha']	=	preg_replace( "/^\s*([0-9]{1,2})[\/\. -]+([0-9]{1,2})[\/\. -]+([0-9]{1,4})/" , "\\3-\\2-\\1" ,$_POST['fecha']);
@@ -74,7 +74,7 @@ if(isset($_POST['guardar']))
 
 					"('{$_SESSION[id_supervisor]}','{$_POST[fecha]}','{$_POST[turno]}','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1', '0','0', '{$_REQUEST[rol]}', '' )";	
 
-	
+     pDebug($qBolseo);	
 
 
 
@@ -146,15 +146,15 @@ if(isset($_POST['guardar']))
 
 		if($_REQUEST['fallo_general'] == 1){
 
-		$horas 	= $_POST['horas_fallo'];
+		   $horas 	= $_POST['horas_fallo'];
 
-		$minutos	=	$_POST['minutos_fallo'];
+		   $minutos	=	$_POST['minutos_fallo'];
 
-		$fallo_electrico 	=	$horas.':'.$minutos.':00';
+		   $fallo_electrico 	=	$horas.':'.$minutos.':00';
 
 		} else {
 
-		$fallo_electrico	=	'00:00:00';
+		  $fallo_electrico	=	'00:00:00';
 
 		}
 
@@ -168,7 +168,7 @@ if(isset($_POST['guardar']))
 
 		$qImpresion			=	"INSERT INTO tiempos_muertos (id_produccion, id_maquina, id_operador, falta_personal, observaciones, fallo_electrico, mantenimiento, cambio_impresion, tipo,otras) VALUES ".
 
-								"('$ID_GENERAL','$id_maquina','$id_operador','$falta_personal', '$observacion', '$fallo_electrico','$mantenimiento', '00:00:00','5','$otras')";
+								"('$ID_GENERAL','$id_maquina','$id_operador','$falta_personal', '$observacion', '$fallo_electrico','$mantenimiento', '0','5','$otras')";
 
           pDebug($qImpresion);	     
 
@@ -178,13 +178,13 @@ if(isset($_POST['guardar']))
 
 		
 
-	}
+	} // fin del for para cada maquina
 
 
 
 
 
-	
+	//echo '<script language="javascript">location.href=\'salida.php\';</script>';
 
 
 
@@ -209,7 +209,7 @@ if(isset($_POST['guardar']))
 
 
 
-}
+}  // cierre de if de renglon 59  if  isset($_POST['guardar'])
 
 
 
@@ -241,7 +241,7 @@ if(!empty($_GET['accion']))
 
 
 
-}
+}  // cierre de if de renglon 216 
 
 if($nuevo)
 
@@ -258,10 +258,10 @@ if($nuevo)
 ?>
 
 <? if($supervisor){?>
-
+<!-- muestra los datos para elegir supervisor, turno y fecha    -->
 <form name="super" action="<?=$_SERVER['PHP_SELF']?>?seccion=<?=$_REQUEST['seccion']?>&accion=nuevo&id=<?=$_REQUEST['id']?>" id="super" method="post" >
 
-<table width="404"  align="center">
+<table border="0" width="404"  align="center">
 
 	<? if(isset($_SESSION['id_admin'])){?>
 
@@ -273,21 +273,21 @@ if($nuevo)
 
     		<? 
 
-						$qSupervisor = "SELECT * FROM supervisor WHERE area4 = 1 ORDER BY nombre ASC;";
+					$qSupervisor = "SELECT * FROM supervisor WHERE area4 = 1 ORDER BY nombre ASC;";
 
-						$rSupervisor = mysql_query($qSupervisor);
+					$rSupervisor = mysql_query($qSupervisor);
 
-						$nSupervisor = mysql_num_rows($rSupervisor);
+					$nSupervisor = mysql_num_rows($rSupervisor);
 						
                          
-                        if($nSupervisor<1) {?>
-                           <option value="0">No Hay Supervisor</option> 
+                    if($nSupervisor<1) {?>
+                         <option value="0">No Hay Supervisor</option> 
                          <? }                        	
 						while($dSupervisor = mysql_fetch_assoc($rSupervisor)){?>
 
     						<option value="<?=$dSupervisor['id_supervisor']?>"><?=$dSupervisor['nombre']?></option>
 
-            <? } ?>
+                         <? } ?>
 
        					</select></td>
 
@@ -301,7 +301,7 @@ if($nuevo)
 
     <tr>
 
-    	<td align="right">Turno</td>
+    <td align="right">Turno</td>
 
 <?		
 
@@ -520,7 +520,9 @@ $dia2 = $compara[0];
 
 </form>
 
-<?php } if($nuevo) {
+<?php } 
+
+if($nuevo) {
 
 
 
@@ -564,16 +566,11 @@ else
 	}
 
 	
-
 //}
 
  ?>
 
-<script language="javascript">
 
-
-
-</script>
 
 <form id="form" action="<?=$_SERVER['PHP_SELF']?>?seccion=<?=$_REQUEST['seccion']?>" method="post">
 
@@ -591,7 +588,7 @@ else
 
                 <label for="fecha">Turno</label>
 
-                              <input type="text" name="turno_bla" id="turno_bla" class="datosgenerales" value="<? if($_REQUEST['turno'] == '1') echo "Matutino";
+                <input type="text" name="turno_bla" id="turno_bla" class="datosgenerales" value="<? if($_REQUEST['turno'] == '1') echo "Matutino";
 
 																							 if($_REQUEST['turno'] == '2') echo "Vespertino";
 
@@ -628,57 +625,52 @@ else
 
 		<?  
 
-		 	$sql_lic= "SELECT * FROM maquina  WHERE area = 5 or area = 6  ORDER BY area,numero ASC  ";
+		 	$sql_lic = "SELECT * FROM maquina  WHERE area = 5 or area = 6  ORDER BY area,numero ASC  ";
 
-			$res_lic=mysql_query($sql_lic);
+			$res_lic = mysql_query($sql_lic);
 
-			$cant_lic=mysql_num_rows($res_lic);
+			$cant_lic = mysql_num_rows($res_lic);
 
-			$cant=ceil($cant_lic/1);
+			$cant = ceil($cant_lic/1);
 
 			$a=0;
-
+            //creacion de arreglos del numero, id y area de cada maquina
 			while($dat_extr = mysql_fetch_assoc($res_lic))
-
 			{
 
 				$codigo[$a]=$dat_extr['numero'];
-
 				$id[$a] 	= $dat_extr['id_maquina'];
                 $area[$a] =   $dat_extr['area'];
 				$a++;
-
 			}
 
 			$reg=0;
 
-			for($i=0;$i<$cant;$i++)
-
+for($i=0;$i<$cant;$i++)  // mostrar cada renglon
 {
 
 ?>
 
-<table width="760" align="center" style="border:#CCCCCC; border:thin">
+  <table border="0" width="760" align="center" style="border:#CCCCCC; border:thin">
 
-<tr>
+  <tr>
 
-    <? for($x=1;$x<=1; $x++){?>
+   <? 
+   // for($x=1;$x<=1; $x++){
+    //muestra los registros de cada renglon
+    // fin en 735
+   	?>
 
-<td width="750" align="center" valign="top"><br />
+     <td width="750" align="center" valign="top"><br />
 
-  <? if($reg<$cant_lic){ ?>		
+      <? if($reg<$cant_lic){ 		
 
+		$qOperadorextr = "SELECT oper_maquina.id_operador, nombre FROM oper_maquina INNER JOIN operadores ON oper_maquina.id_operador = operadores.id_operador WHERE id_maquina = ".$id[$reg]."  AND oper_maquina.rol = '".$_SESSION['rol']."' ";
+		pDebug($qOperadorextr);
 
+	    $rOperadorextr = mysql_query($qOperadorextr);
 
-  <?
-
-		
-
-		    $qOperadorextr = "SELECT oper_maquina.id_operador, nombre FROM oper_maquina INNER JOIN operadores ON oper_maquina.id_operador = operadores.id_operador WHERE id_maquina = ".$id[$reg]."  AND oper_maquina.rol = '".$_SESSION['rol']."'  ";
-
-			$rOperadorextr = mysql_query($qOperadorextr);
-
-			$dAsignacionextr = mysql_fetch_assoc($rOperadorextr);?>
+		$dAsignacionextr = mysql_fetch_assoc($rOperadorextr);?>
 
 		<input type="hidden"  name="id_operador2_<?=$codigo[$reg]?>" value="<?=$dAsignacionextr['id_operador'] ?>" />
 
@@ -686,21 +678,24 @@ else
 
         <input type="hidden" name="codigos2[]" value="<?=$codigo[$reg]?>" />
 
-		<h3 align="left" style="color: rgb(255, 255, 255);"// background-color: rgb(127,127,127);"  onclick="muestra('<?=$id[$reg]?>')"  class="Tips4" title="Click aqui para abrir o cerrar::"><? if($area[$reg]==5)  echo 'RPS'; else echo 'SF';?> <?=$codigo[$reg]?></h3>
+		<? if($area[$reg]==5) { ?>
+		    <h3 align="left" style="color: rgb(255, 255, 255); background-color: rgb(127,127,127);"  onclick="muestra('<?=$id[$reg]?>')"  class="Tips4" title="Click aqui para abrir o cerrar::"><? echo 'RPS ';?> <?=$codigo[$reg]?></h3>
+        <? } else { ?>
+		    <h3 align="left" style="color: rgb(0, 0, 0); background-color: rgb(117,205,221);"  onclick="muestra('<?=$id[$reg]?>')"  class="Tips4" title="Click aqui para abrir o cerrar::"><? echo 'SF ';?> <?=$codigo[$reg]?></h3>
+        <? } ?>
+        <div id="div_<?=$id[$reg]?>" style="display:none">
+         
+         <table border="0" width="733" height="137" align="left" >
 
-<div id="div_<?=$id[$reg]?>" style="display:none">
+			<tr>
 
-<table width="733" height="137" align="left" >
+			<td height="39" align="right"><strong>Observaciones</strong></td>
 
-					<tr>
+			<td colspan="3" align="left"><textarea name="ob_bolseo<?=$codigo[$reg]?>" id="ob_bolseo<?=$codigo[$reg]?>" cols="55" rows="2" /></textarea></td>
 
-						<td height="39" align="right"><strong>Observaciones</strong></td>
+            </tr>
 
-					  <td colspan="3" align="left"><textarea name="ob_bolseo<?=$codigo[$reg]?>" id="ob_bolseo<?=$codigo[$reg]?>" cols="55" rows="2" /></textarea></td>
-
-                    </tr>
-
-<!--                  	<tr>
+          <!--  <tr>
 
            	  			<td align="right" class="style7">Falta de Personal :</td>
 
@@ -708,50 +703,54 @@ else
 
                    </tr>                              
 
--->                    <tr>
+           -->  
+            <tr>
 
-           	  			<td width="129" align="right" class="style7">Otras causas :</td>
+           	 <td width="129" align="right" class="style7">Otras causas :</td>
 
-               		  	<td width="592" align="left"><input type="text" name="oh_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" />:
+             <td width="592" align="left"><input type="text" name="oh_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" />:
 
-                        				<input type="text" name="om_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" /></td>
+             <input type="text" name="om_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" /></td>
 
-       			  </tr>
+       	    </tr>
 
-             		<tr>
+             <tr>
 
-           	  			<td align="right" class="style7">Mantenimiento :</td>
+           	  	<td align="right" class="style7">Mantenimiento :</td>
 
-               			<td width="592" align="left"><input type="text" name="mh_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" />:
+               	<td width="592" align="left"><input type="text" name="mh_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" />:
 
-                        				<input type="text" name="mm_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" /></td>
+                <input type="text" name="mm_bolseo<?=$codigo[$reg]?>" size="2" maxlength="2" value="00" /></td>
 
-                  </tr>
+              </tr>
 
-		  </table></div>
+		     </table></div>
 
 
 
-  <? $reg++;}?></td><? }?>
+     <? $reg++;
 
-</tr>
+      }?>
 
-</table>
+    </td>
+    <? // }  //fin de for de objetos de cada  renglon?>  
 
-  <? }?>
+     </tr>
+
+    </table>
+
+  <? }  // fin de for de todos los renglones?>
 
   </p>    
 
-        <br /><br />
+   <br /><br />
 
-           <p align="center">                             
+       <p align="center">                             
 
-          </p>
+        </p>
 
-<div id="barraSubmit" style="background-color:#FFFFFF; text-align:center;">
-
-			<input type="submit" name="guardar" value="Guardar" onclick="javascript: return confirm('Usted está a punto de pasar a la siguiente \netapa de registro de produccion, si desea realizar cambios seleccione cancelar,\npara continuar dar click en aceptar.');" />
-
+  <div id="barraSubmit" style="background-color:#FFFFFF; text-align:center;">
+		<input type="submit" name="guardar" value="Guardar" onclick="javascript: return confirm('Usted está a punto de pasar a la siguiente \netapa de registro de produccion, si desea realizar cambios seleccione cancelar,\npara continuar dar click en aceptar.');" />
   </div>
 
   </div>

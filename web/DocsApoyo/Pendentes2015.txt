@@ -1,0 +1,80 @@
+Sacar inventario
+Listar los que tienen el mismo nombre, diferente numnomina pero activo=0 (activo=1 es inactivo)
+
+buscar los que tienen registro  tanto en activo como en inactivo
+
+cuando se va a dar de alta,  poner en mayusculas  nombre y puesto
+  verificar que no exista ese numero de nomina, activo e inactivo
+  verificar que no exista ese nombre, activo o inactivo
+
+  Si existe, dar la opcion de reactivarlo
+
+   crear el numnomina como primary key    
+
+ si no existe, ni en numero de nomina ni en nombre, entinces insertar el  registro
+
+
+cuantos estan activos? y cuantos de los que estan activos, tienen uno inactivo al mismo tiempo+
+
+Hay personas con 2 o 3 registros iguales  y solo uno activo(0) o todos inactivos(1)
+
+197 activo =0     activos
+338 activo =1     inactivos
+----
+535  en total
+
+Se tienen 498 diferentes, pero algunos registros tienen el mismo pero con falta de ortografia
+o contraido  o con V. en lugar de vanesa , o jesica y yesica
+
+chocoteco 
+islas
+lozano
+palomino
+tapia
+toga
+
+
+367 y 368   
+247 y 197 
+22 y 486
+247 y 262
+207 y 353
+67 y 376
+255 y 264
+256 y 284
+260 y 261
+258 y 259
+364 y 354
+89 y 299
+92 y 551
+312 y 326
+28 y 466
+282 y 278
+309 y 569
+214 y 276
+340 y 341
+227, 267  y 594
+73 y 641
+236  y 599
+330 y 600
+235 y 600
+251  y 458
+275 y 491
+379 y 561
+74 y 400
+277 y 281
+90, 390 y 401
+126 y 579
+250  y 263
+307 y 573 y 208
+134 y 449
+666, 668 y 669
+374 y 575
+347 y 348
+228 y 232
+44 y 316
+446 y 448
+199 y 241
+662 y  663
+153 y 408
+

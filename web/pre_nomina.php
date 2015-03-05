@@ -641,68 +641,71 @@ if(date('w') < 4) $semana_re = date('W')-1;
 else	$semana_re = date('W');
  ?>
 	<div id="datosgenerales" style="background-color:#FFFFFF;">	
-        	<table align="center" width="80%" >
-				<tr>
-                	<td colspan="5" align="center">| <a href="<?=$_SERVER['PHP_SELF']?>?seccion=37&accion=portada&semana_reportes=<?=$semana_re?>" class="style7">Lista de movimientos de personal </a>|<br>
+      <table align="center" width="80%" >
+	  <tr>
+            <td colspan="5" align="center">| <a href="<?=$_SERVER['PHP_SELF']?>?seccion=37&accion=portada&semana_reportes=<?=$semana_re?>" class="style7">Lista de movimientos de personal </a>|<br>
                 	  <br>
-                	</td>
-                </tr>
-                <tr>
-                <? if(isset($_SESSION['id_admin']) && $prenominaReMo){ ?>
-                	<td width="30%" align="center" valign="top">
-                      <form action="<?=$_SERVER['PHP_SELF']?>?seccion=31&tipo=100" method="post" name="form" >	
-                    	<table width="100%" align="center">
-                        	<tr>
-                            	<td colspan="2" align="left"><h3>REPORTES MOVIMIENTOS</h3></td>
-                            </tr>
-  							<tr>
-                            	<td width="25%">Semana:</td>
-               	  				<td width="75%"><select name="semana_reportes" >
-									<? if(date('w') < 4) 
-									      $semana_re = date('W')-1;
-									   else	
-											$semana_re = date('W');
-										$qSemanas		=	"SELECT semana FROM pre_nomina_calificada WHERE semana != 0 GROUP BY semana ORDER BY semana ASC";
-										$rSemanas	=	mysql_query($qSemanas);	
-										while($dSemanas 	=	mysql_fetch_assoc($rSemanas)){
+            </td>
+       </tr>
+       <tr>
+            <? if(isset($_SESSION['id_admin']) && $prenominaReMo){ ?>
+            <td width="30%" align="center" valign="top">
+                <form action="<?=$_SERVER['PHP_SELF']?>?seccion=31&tipo=100" method="post" name="form" >	
+                    <table width="100%" align="center">
+                     <tr>
+                        <td colspan="2" align="left"><h3>REPORTES MOVIMIENTOS</h3></td>
+                     </tr>
+  					 <tr>
+                        <td width="25%">Semana:</td>
+               	  		<td width="75%">
+               	  			<select name="semana_reportes" >
+							<? if(date('w') < 4) 
+							      $semana_re = date('W')-1;
+							    else	
+								  $semana_re = date('W');
+								$qSemanas		=	"SELECT semana FROM pre_nomina_calificada WHERE semana != 0 GROUP BY semana ORDER BY semana ASC";
+								$rSemanas	=	mysql_query($qSemanas);	
+								while($dSemanas 	=	mysql_fetch_assoc($rSemanas)){
 									?>
                		 					 <option value="<?=$dSemanas['semana']?>" <? if( $semana_re == $dSemanas['semana']) echo "selected"; ?>>Semana No <?=$dSemanas['semana']?></option>
-                       				  <? } ?>
-                       				</select>
-                                </td>
-                            </tr>
-                            <tr>
-                            	<td width="25%">A&Ntilde;O:</td>
-                                <td width="75%"><select name="anio_nom">
-                                    <option <?=(date('Y') == '2008')?"selected":""?>>2008</option>
-                                    <option <?=(date('Y') == '2009')?"selected":""?>>2009</option>
-                                    <option <?=(date('Y') == '2010')?"selected":""?>>2010</option>
-                                    <option <?=(date('Y') == '2011')?"selected":""?>>2011</option>
-                                    <option <?=(date('Y') == '2012')?"selected":""?>>2012</option>
-                                    <option <?=(date('Y') == '2013')?"selected":""?>>2013</option>
-                                    <option <?=(date('Y') == '2014')?"selected":""?>>2014</option>
-                                    <option <?=(date('Y') == '2015')?"selected":""?>>2015</option>
-                                    <option <?=(date('Y') == '2016')?"selected":""?>>2016</option>
-                                    <option <?=(date('Y') == '2017')?"selected":""?>>2017</option>
-                                    <option <?=(date('Y') == '2018')?"selected":""?>>2018</option>
-                                    <option <?=(date('Y') == '2019')?"selected":""?>>2019</option>
-                                   </select> 
-                           	  </td>
+                       			  <? } ?>
+                       		</select>
+                        </td>
+                       </tr>
+                       <tr>
+                           <td width="25%">A&Ntilde;O:</td>
+                           <td width="75%">
+                           	 <select name="anio_nom">
+                              <option <?=(date('Y') == '2008')?"selected":""?>>2008</option>
+                              <option <?=(date('Y') == '2009')?"selected":""?>>2009</option>
+                              <option <?=(date('Y') == '2010')?"selected":""?>>2010</option>
+                              <option <?=(date('Y') == '2011')?"selected":""?>>2011</option>
+                              <option <?=(date('Y') == '2012')?"selected":""?>>2012</option>
+                              <option <?=(date('Y') == '2013')?"selected":""?>>2013</option>
+                              <option <?=(date('Y') == '2014')?"selected":""?>>2014</option>
+                              <option <?=(date('Y') == '2015')?"selected":""?>>2015</option>
+                              <option <?=(date('Y') == '2016')?"selected":""?>>2016</option>
+                              <option <?=(date('Y') == '2017')?"selected":""?>>2017</option>
+                              <option <?=(date('Y') == '2018')?"selected":""?>>2018</option>
+                              <option <?=(date('Y') == '2019')?"selected":""?>>2019</option>
+                             </select> 
+                           	</td>
                           </tr>
-                            <tr>
-                            	<td>Tipo:</td>
+                           <tr>
+                           <td>Tipo:</td>
                                 <td><select name="movimiento">
-                                            <option value="1">Normal</option>
-                                            <option value="2">Economico</option>
-                                            <option value="3">Ambos</option>
-                                         </select></td>
+                                      <option value="1">Normal</option>
+                                      <option value="2">Economico</option>
+                                      <option value="3">Ambos</option>
+                                     </select>
+                                 </td>
                             </tr>
                             <tr>
                             	<td>Areas :</td>
                                 <td>
-                                	<table width="100%">
-                                    	<tr>
-                                        	<td>
+                                 <table width="100%">
+                                   <tr>
+                                     <td>
                                             	<? if($_SESSION['area'] == 1 || $prenominaExt){ ?>
                                                  	<label ><input type="checkbox"  value="1" name="extruder" >Extruder</label><br><br>
 												<? } if($_SESSION['area2'] == 1 || $prenominaImpr){ ?>                                            	
@@ -724,23 +727,24 @@ else	$semana_re = date('W');
                                                 <? } ?>
                                                 </td>
                                				</tr>
-                                     	</table>
-                                  </td>
+                                 </table>
+                                </td>
                             </tr>
                        		<tr>
                             	<td colspan="2" align="center"><input type="submit" name="genera" value="generar_reporte"></td>
                            </tr>
-                       </table></form> 
-					</td> <? } ?>
+                       </table>
+                   </form> 
+				</td> <? } ?>
          
-                	<td align="center" width="5%">&nbsp;</td>
+                <td align="center" width="5%">&nbsp;</td>
                 
-                	<td width="30%" align="center" valign="top">
+                <td width="30%" align="center" valign="top">
 <script type="text/javascript" language="javascript">
 function genera2()
 {
-document.pre.action="reportes_pdf_nomina.php?tipo=prenomina";
-document.pre.submit();
+  document.pre.action="reportes_pdf_nomina.php?tipo=prenomina";
+  document.pre.submit();
 }
 
 function genera()
@@ -749,31 +753,31 @@ document.pre.action="<?=$_SERVER['HOST']?>?seccion=<?=$_REQUEST['seccion']?>&acc
 document.pre.submit();
 }
 </script>
-                       <form name="pre" method="post" action="<?=$_SERVER['HOST']?>?seccion=<?=$_REQUEST['seccion']?>&accion=listarNomina">
-                    	<table width="100%">
-            				<tr>
-                                <td colspan="2" align="left"><h3>Asistencias</h3></td>
-                            </tr>
-                            <tr>
-                            	<td width="24%">Semana:</td>
-                      <td width="76%">
-                      <? 
-                                        if(date('w') < 4) 
-                                        	$semana = date('W')-1;
-                                        else	
-                                        	$semana = date('W');
-                                        ?>
-                                  <select name="semana" id="semana">
-										<?php
+        <form name="pre" method="post" action="<?=$_SERVER['HOST']?>?seccion=<?=$_REQUEST['seccion']?>&accion=listarNomina">
+            <table width="100%">
+              <tr>
+                  <td colspan="2" align="left"><h3>Asistencias</h3></td>
+              </tr>
+              <tr>
+                <td width="24%">Semana:</td>
+                <td width="76%">
+                   <? 
+                     if(date('w') < 4) 
+                         $semana = date('W')-1;
+                     else	
+                         $semana = date('W');
+                      ?>
+                     <select name="semana" id="semana">
+						<?php
 										
-                                        $qSemana		=	"SELECT semana FROM pre_nomina_calificada WHERE semana != 0 GROUP BY semana ORDER BY semana ASC";
-                                            $rSemana	=	mysql_query($qSemana);	
-                                            while($dSemana 	=	mysql_fetch_assoc($rSemana)){
-                                        ?>
-                                          <option value="<?=$dSemana['semana']?>" <? if( $semana == $dSemana['semana']) echo "selected"; ?>>Semana No <?=$dSemana['semana']?></option>
-                                         <? } ?>
-                                    </select>
-                                    <br>
+                             $qSemana	=	"SELECT semana FROM pre_nomina_calificada WHERE semana != 0 GROUP BY semana ORDER BY semana ASC";
+                             $rSemana	=	mysql_query($qSemana);	
+                              while($dSemana 	=	mysql_fetch_assoc($rSemana)){
+                          ?>
+                              <option value="<?=$dSemana['semana']?>" <? if( $semana == $dSemana['semana']) echo "selected"; ?>>Semana No <?=$dSemana['semana']?></option>
+                           <? } ?>
+                      </select>
+                      <br>
                                     <select name="anio_nom_as">
                                 	    <option <?=(date('Y') == '2008')?"selected":""?>>2008</option>
                             	        <option <?=(date('Y') == '2009')?"selected":""?>>2009</option>
@@ -800,6 +804,8 @@ document.pre.submit();
 									<option value="3">Impresion</option>
 									<? } if($_SESSION['area3'] == 1 || $prenominaBol){ ?>
 									<option value="2">Bolseo</option>
+									<? } if($_SESSION['area4'] == 1 || $prenominaBol){ ?>
+									<option value="10">RPSySF</option>
 									<? } if($prenominaMtto){ ?>
 									<option value="4">Mantenimiento</option>
 									<? } if($prenominaMttob){ ?>

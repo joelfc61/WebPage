@@ -134,17 +134,14 @@ body {
 
 	        <tr>
 
-            <? 	  if( $_SESSION['area']  == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=23&accion=supervisor" ><img src="images/admin_12.jpg"  alt="Extruder" border="0" class="Tips4" title="REPORTEO EXTRUDER :: capture sus reportes de trabajo." /></a></th>
-
-            <? } if( $_SESSION['area2'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=27&accion=supervisor" ><img src="images/admin_13.jpg"  alt="Impresion" border="0" class="Tips4" title="REPORTEO IMPRESION :: capture sus reportes de trabajo " /></a></th>
-
-            <? } if( $_SESSION['area3'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=29&amp;accion=supervisor" class="style6"><img src="images/admin_11.jpg"  alt="Bolseo" border="0" class="Tips4" title="REPORTEO BOLSEO :: capture sus reportes de trabajo " /></a></th>
-
+            <? 	  if( $_SESSION['area']  == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=23&accion=supervisor" ><img src="images/admin_12.jpg"  alt="Extruder" border="0" class="Tips4" title="REPORTEO EXTRUDER :: Capture sus reportes de trabajo." /></a></th>
+            <? } if( $_SESSION['area2'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=27&accion=supervisor" ><img src="images/admin_13.jpg"  alt="Impresion" border="0" class="Tips4" title="REPORTEO IMPRESION :: Capture sus reportes de trabajo " /></a></th>
+            <? } if( $_SESSION['area3'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=29&accion=supervisor" class="style6"><img src="images/admin_11.jpg"  alt="Bolseo" border="0" class="Tips4" title="REPORTEO BOLSEO :: Capture sus reportes de trabajo " /></a></th>
+            <? } if( $_SESSION['area4'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=30&accion=supervisor" class="style6"><img src="images/RPS_SF.jpg"  alt="RPSySF" border="0" class="Tips4" title="REPORTEO RPSySF :: Capture sus reportes de trabajo " /></a></th>
             <? } if( $_SESSION['area']  == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=31&accion=listar&extruder" class="style6"><img src="images/rep_ext.jpg" alt="Edicion Reportes Extruder" width="60"  border="0" class="Tips4" title="EDICION REPORTES EXTRUDER :: Modifique sus reportes." /></a></th>
-
             <? } if( $_SESSION['area2'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=31&accion=listar&impresion" class="style6"><img src="images/rep_impr.jpg" width="60" alt="Edicion Reportes Impresion" border="0" class="Tips4" title="EDICION REPORTES IMPRESION :: Modifique sus reportes"/></a></th>
-
             <? } if( $_SESSION['area3'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=31&accion=listar&bolseo" class="style6"><img src="images/rep_bol.jpg" border="0" width="60" class="Tips4" title="EDICION REPORTES BOLSEO :: Modifique sus reportes" /></a></th>
+            <? } if( $_SESSION['area4'] == 1 ){?><th width="8%" scope="col"><a href="admin_supervisor.php?seccion=31&accion=listar&rpsysf" class="style6"><img src="images/rep_RPS_SF.jpg" border="0" width="60" class="Tips4" title="EDICION REPORTES RPSySF :: Modifique sus reportes" /></a></th>
 
             <? } ?>
 
@@ -251,6 +248,10 @@ body {
 			case 29:
 
 				include("tiempos_bolseo.php"); break;
+
+            case 30:
+
+				include("tiempos_rpsysf.php"); break;
 
 			case 31:
 

@@ -15,6 +15,7 @@ include "conectar.php";
 	 $_SESSION['area'] = $dato['area'];
 	 $_SESSION['area2'] = $dato['area2'];
 	 $_SESSION['area3'] = $dato['area3'];
+	 $_SESSION['area4'] = $dato['area4'];
 	 $_SESSION['nombre'] = $dato['nombre'];
 	//	 header("Location:admin_supervisor.php?id=".$_SESSION['id_supervisor'].""); 
 
