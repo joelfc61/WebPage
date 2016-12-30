@@ -1,5 +1,8 @@
 <? 
 @session_start();
+
+//Esta es  una kinea  de prueba para github
+
 require( 'class.Calendar.php' );
 	$anho	=	( isset($_GET['anho'] ) && $_GET['anho'] != "" )?intval( $_GET['anho'] ):date("Y");
 	$mes	=	( isset($_GET['mes'] ) && $_GET['mes'] != "" )?intval($_GET['mes']):date("m");
